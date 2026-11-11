@@ -1,0 +1,67 @@
+OCKLY — Instalación y pruebas completadas
+Fecha: 11 de noviembre de 2026
+
+ENTORNO VERIFICADO
+Java Temurin JDK 17.0.21: java y javac correctos.
+Maven 3.10.0: C:\Herramientas\apache-maven-3.10.0.
+JAVA_HOME y Path del usuario configurados. Abrir una terminal nueva para usar mvn.
+XAMPP: C:\xampp. Apache y MariaDB 10.11.16 activos.
+Visual Studio Code instalado.
+Proyecto: carpeta ockly-main junto a este informe, extraída del ZIP original.
+
+CÓMO FUNCIONA
+El navegador abre Ockly en http://localhost:8080/.
+Spring Boot ejecuta la aplicación Java y atiende las páginas y formularios.
+Spring Boot se conecta por el puerto 3306 a MariaDB, incluida en XAMPP.
+Apache proporciona phpMyAdmin en http://localhost/phpmyadmin/ para administrar
+la base. Apache no ejecuta Ockly. El proyecto no se copia a htdocs.
+Se importó database/schema.sql: base ockly_db, tablas categorias y productos.
+
+RESULTADOS
+Se creó la categoría Cuadernos y el producto Cuaderno cuadriculado desde la interfaz.
+Se consultaron sus detalles y la relación categoría/producto.
+Se actualizó el precio de 12000 a 14000 y el stock de 15 a 8.
+Se comprobó edición de categoría y eliminación de producto y categoría con registros
+temporales separados; dichos registros temporales ya fueron eliminados.
+Se rechazó la eliminación de Cuadernos mientras tiene un producto asociado.
+Se rechazaron nombre de categoría vacío, precio negativo y stock negativo.
+Se verificaron los datos directamente en MariaDB y mediante SELECT JOIN en phpMyAdmin.
+Se detuvo y reinició Spring Boot: el producto conservó precio 14000 y stock 8.
+Se ejecutó mvn -B clean test desde la copia entregada del proyecto:
+BUILD SUCCESS. 3 pruebas, 0 fallos, 0 errores, 0 omitidas.
+Las pruebas automáticas usan H2 temporal; las comprobaciones funcionales anteriores
+se realizaron con la base MariaDB real de XAMPP.
+
+EVIDENCIAS
+12 capturas PNG en evidencias. La captura 11 muestra un extracto literal del registro
+de Maven abierto como texto en navegador; el registro completo se entrega por separado.
+resultado-pruebas-ockly.txt: salida completa de mvn -B clean test.
+pruebas-base-real.txt: verificaciones funcionales con la base real.
+consulta-base-real.txt: consulta SQL y conteos reales.
+
+ESTADO FINAL
+Ockly queda iniciado en http://localhost:8080/.
+Se conservan Cuadernos y Cuaderno cuadriculado para la demostración.
+No se modificó el código del proyecto ni se subió contenido a GitHub.
+
+VOLVER A INICIAR
+1. Abrir XAMPP Control Panel e iniciar Apache y MySQL.
+2. Abrir una terminal nueva en la carpeta ockly-main.
+3. Ejecutar: mvn spring-boot:run
+4. Abrir http://localhost:8080/.
+Para detener Spring Boot: Ctrl+C en la terminal donde se inició.
+
+ERRORES COMUNES
+- mvn no reconocido: abrir una terminal nueva; Maven está en
+  C:\Herramientas\apache-maven-3.10.0\bin.
+- JAVA_HOME incorrecto: debe apuntar al JDK instalado, sin agregar bin al final.
+- Connection refused a 3306: iniciar MySQL en XAMPP y revisar su puerto.
+- Unknown database o tablas ausentes: ejecutar database/schema.sql.
+- Access denied: revisar DB_USERNAME y DB_PASSWORD si se cambia la cuenta local.
+- Puerto 8080 ocupado: cerrar la otra instancia de Ockly antes de iniciar otra.
+- Aviso UAC de XAMPP: instalar en C:\xampp; no hace falta desactivar UAC.
+
+OBSERVACIÓN DEL REGISTRO
+Hibernate muestra una advertencia de versión 5.5.5 al identificar MariaDB mediante
+el conector MySQL del proyecto. La versión real comprobada es MariaDB 10.11.16.
+No impidió el arranque, el CRUD ni la persistencia durante estas pruebas.

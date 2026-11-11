@@ -160,7 +160,7 @@ El docente exige capturas **reales** del funcionamiento. Con el sistema ejecutá
 5. Consulta SQL de las tablas en phpMyAdmin para evidenciar persistencia.
 6. Resultado de `mvn test` o de la compilación.
 
-**Importante:** ninguna captura debe representarse como evidencia real si no fue obtenida desde la aplicación ejecutándose. El documento local de la entrega contiene los apartados de evidencias pendientes de capturar durante la demostración.
+Las pruebas locales se completaron el 11 de noviembre de 2026: **3 pruebas automáticas aprobadas, sin fallos ni errores**. También se verificaron el CRUD con MariaDB de XAMPP y la persistencia tras reiniciar Spring Boot. Las 12 capturas reales están en [`entrega/evidencias/`](entrega/evidencias/).
 
 ## Limitaciones académicas
 
@@ -168,4 +168,13 @@ Este módulo inicial cubre únicamente catálogo de productos y categorías. No 
 
 ## Archivos de entrega
 
-En [`entrega/`](entrega/) se incluyen el documento técnico en Word y PDF y el código fuente en ZIP. Para utilizar el proyecto se recomienda clonar el repositorio.
+En [`entrega/`](entrega/) está la entrega final:
+
+- [Informe final en PDF](entrega/Ockly_MVC_Documento_Tecnico.pdf).
+- [Informe editable en Word](entrega/Ockly_MVC_Documento_Tecnico.docx).
+- [Código fuente en ZIP](entrega/Ockly_MVC_SpringBoot_Fuente.zip).
+- [Evidencias y resultados en ZIP](entrega/Ockly-evidencias-y-pruebas.zip).
+- [Capturas individuales](entrega/evidencias/).
+- [Resultados de las pruebas y guía local](entrega/resultados/).
+
+Para utilizar el proyecto, sigue el manual del informe o las instrucciones de este README.

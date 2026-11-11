@@ -1,0 +1,6 @@
+categoria	producto	precio	stock
+Cuadernos	Cuaderno cuadriculado	14000.00	8
+categorias
+1
+productos
+1

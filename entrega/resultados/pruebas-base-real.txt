@@ -1,0 +1,7 @@
+APROBADO: Categoria muestra producto relacionado
+APROBADO: Impide eliminar categoria con productos
+APROBADO: Rechaza nombre de categoria vacio
+APROBADO: Rechaza precio negativo
+APROBADO: Rechaza stock negativo
+APROBADO: edicion de categoria y eliminacion de producto y categoria temporales
+APROBADO: persistencia de producto, precio y stock tras reiniciar Spring Boot

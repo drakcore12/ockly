@@ -1,0 +1,14 @@
+2026-11-11T10:44:47.388-05:00  INFO 28208 --- [Ockly] [           main] c.e.p.ockly.OcklyMvcIntegrationTest      : Started OcklyMvcIntegrationTest in 17.755 seconds (process running for 20.434)
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 34.02 s -- in co.edu.pascualbravo.ockly.OcklyMvcIntegrationTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  48.668 s
+[INFO] Finished at: 2026-11-11T10:45:02-05:00
+[INFO] ------------------------------------------------------------------------
