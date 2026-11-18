@@ -1,4 +1,6 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/layout :: head('Error 404')}"></head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/layout :: head('Error 404')}">
+  <title>Error 404 | Ockly</title>
+</head>
 <body><header th:replace="~{fragments/layout :: header}"></header><main class="container main-content"><h1>No encontramos el registro solicitado.</h1>
 <a class="btn btn-primary" th:href="@{/}">Volver al inicio</a></main><footer th:replace="~{fragments/layout :: footer}"></footer></body></html>
