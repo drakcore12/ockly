@@ -1,54 +1,27 @@
-# Ockly con arquitectura hexagonal
+# Ockly
 
-Sistema administrativo para una papelería. Actividad final de Arquitectura de Software, Institución Universitaria Pascual Bravo, 2026.
+Sistema administrativo para una papelería, migrado de MVC a arquitectura hexagonal con Java 17 y Spring Boot.
 
-**Integrantes:** Sebastián Pineda, Melissa Betancur Osorio y Miguel Ángel Noreña Cano.
+**Integrantes:** Sebastián Pineda, Melissa Betancur Osorio y Miguel Ángel Noreña Cano.  
+Institución Universitaria Pascual Bravo, Arquitectura de Software, 2026.
 
-La aplicación parte del mismo Ockly MVC. Conserva los CRUD de categorías y productos, su relación, las pantallas Thymeleaf y la base `ockly_db`. El núcleo ahora usa Java y puertos propios; Spring MVC y JPA quedan en adaptadores.
+## Informe final
 
-## Entrega final
+- [Informe final en PDF](entrega/Informe_Final_Ockly.pdf).
+- [Documento editable en Google Docs](https://docs.google.com/document/d/1BO3xjO9o3EaBIa-C6huaP5zL5_Z4CUJ2HHjbeZ-e5Lw/edit).
 
-- [Informe y manual en PDF](entrega/hexagonal/Informe_Ockly_Hexagonal.pdf).
-- [Informe editable en Word](entrega/hexagonal/Informe_Ockly_Hexagonal.docx).
-- [Código fuente en ZIP](entrega/hexagonal/Ockly_Hexagonal_Fuente.zip).
-- [Evidencias y resultados](entrega/hexagonal/evidencias/).
-- [Entrega completa en ZIP](entrega/hexagonal/Ockly_Hexagonal_Entrega.zip).
+El informe reúne el documento técnico, el diagrama, la comparación entre arquitecturas, las siete reflexiones, las conclusiones, el manual y la evidencia del funcionamiento.
 
-## Ejecutar
+## Código y ejecución
 
-1. Instalar JDK 17 y Maven; comprobar `java -version` y `mvn -version`.
-2. Iniciar MySQL de XAMPP. Apache permite usar `http://localhost/phpmyadmin/`; no iniciar Tomcat desde XAMPP.
-3. Ejecutar todo [database/schema.sql](database/schema.sql) antes del primer arranque. Reutiliza las tablas existentes y no borra sus datos.
-4. Revisar [application.properties](src/main/resources/application.properties): localhost, puerto 3306, base ockly_db, root y contraseña vacía por defecto. Usar DB_PASSWORD si la cuenta tiene clave; DB_USERNAME y DB_URL para otra conexión.
-5. Abrir una terminal en la carpeta que contiene pom.xml y ejecutar `mvn spring-boot:run`.
-6. Abrir `http://localhost:8080/`. Categorías: `/categorias`. Productos: `/productos`.
+El código completo está en este repositorio. Para descargarlo, usar **Code → Download ZIP**.
 
-Para detener: Ctrl+C. Si 8080 está ocupado, cerrar la otra instancia o definir `$env:PORT="8081"` en PowerShell y abrir ese puerto.
+1. Instalar JDK 17 y Maven.
+2. Iniciar MySQL de XAMPP. Iniciar Apache si se va a usar phpMyAdmin.
+3. Ejecutar `database/schema.sql` antes del primer arranque. Se utiliza `ockly_db` en el puerto `3306`.
+4. Revisar `src/main/resources/application.properties`. La configuración local usa `root` y contraseña vacía; se puede definir `DB_PASSWORD` si la cuenta tiene clave.
+5. En la carpeta con `pom.xml`, ejecutar `mvn spring-boot:run` y abrir `http://localhost:8080/`.
 
-## Arquitectura y manual
+Pruebas automáticas: `mvn clean test`. Las pruebas usan H2 temporal; la aplicación normal usa MySQL/MariaDB.
 
-- [Comparación, estructura, diagrama y siete reflexiones](docs/migracion-hexagonal.md).
-- [Manual de instalación, conexión, rutas y uso](docs/manual-sistema.md).
-- [Diagrama de dependencias](docs/arquitectura-hexagonal.png).
-
-Los controladores solo reciben puertos de entrada. Los casos de uso reciben puertos de salida y modelos del dominio. Los adaptadores JPA implementan esos contratos y convierten entidades mediante un mapper. CatalogoConfiguration conecta los componentes y aplica las transacciones sin importar Spring en domain ni application.
-
-## Pruebas
-
-Ejecutar `mvn clean test`. H2 se usa solo en las pruebas automáticas; la ejecución normal usa MySQL/MariaDB.
-
-Verificación local del 18 de noviembre de 2026:
-
-- 24 pruebas automáticas aprobadas: 17 del negocio sin Spring ni base, 5 de integración y 2 de dependencias de arquitectura.
-- 21 comprobaciones de CRUD, rutas y validaciones en MariaDB, más la comprobación del reinicio.
-- Datos anteriores conservados y registros temporales de prueba eliminados.
-
-Los registros completos y capturas nuevas están en la carpeta de evidencias. La configuración de GitHub Actions ejecuta las pruebas automáticamente.
-
-## Versión anterior
-
-La versión MVC se conserva en [codex/ockly-mvc](https://github.com/drakcore12/ockly/tree/codex/ockly-mvc) y su entrega está en los archivos históricos de `entrega/`. La entrega actual es `entrega/hexagonal/`.
-
-## Alcance
-
-Catálogo de productos y categorías. No incluye ventas, pagos ni cuentas de usuarios. La migración conserva ese alcance y el esquema de base de datos.
+Las instrucciones completas, las rutas y el uso de categorías y productos están en el informe final.
