@@ -1,4 +1,4 @@
-name: Pruebas MVC Ockly
+name: Pruebas Ockly hexagonal
 on:
   push:
     branches: ["main"]
@@ -21,5 +21,5 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: maven
-      - name: Compilar y ejecutar pruebas de integración (H2)
+      - name: Verificar negocio, integración y arquitectura
         run: mvn -B clean test

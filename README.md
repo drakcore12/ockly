@@ -1,180 +1,54 @@
-# Ockly | Sistema administrativo de papelería
+# Ockly con arquitectura hexagonal
 
-Actividad de Arquitectura de Software · Institución Universitaria Pascual Bravo · 2026.
+Sistema administrativo para una papelería. Actividad final de Arquitectura de Software, Institución Universitaria Pascual Bravo, 2026.
 
 **Integrantes:** Sebastián Pineda, Melissa Betancur Osorio y Miguel Ángel Noreña Cano.
 
-Aplicación web MVC con **Spring Boot + Thymeleaf + JPA + MySQL**. Permite gestionar **categorías** y **productos** con una asociación **uno a muchos**.
+La aplicación parte del mismo Ockly MVC. Conserva los CRUD de categorías y productos, su relación, las pantallas Thymeleaf y la base `ockly_db`. El núcleo ahora usa Java y puertos propios; Spring MVC y JPA quedan en adaptadores.
 
-> **Alcance:** este repositorio corresponde a la actividad específica de MVC con Spring Boot del docente. Aunque en el taller de estilos se exploró Tuberías y Filtros, para esta actividad se aplica **MVC**, tal como lo exige su enunciado.
+## Entrega final
 
-## Funcionalidades
+- [Informe y manual en PDF](entrega/hexagonal/Informe_Ockly_Hexagonal.pdf).
+- [Informe editable en Word](entrega/hexagonal/Informe_Ockly_Hexagonal.docx).
+- [Código fuente en ZIP](entrega/hexagonal/Ockly_Hexagonal_Fuente.zip).
+- [Evidencias y resultados](entrega/hexagonal/evidencias/).
+- [Entrega completa en ZIP](entrega/hexagonal/Ockly_Hexagonal_Entrega.zip).
 
-- Crear, listar, consultar individualmente, editar y eliminar **categorías**.
-- Crear, listar, consultar individualmente, editar y eliminar **productos**.
-- Asociar cada producto con una categoría existente (clave foránea relacional).
-- Validar nombre, precio positivo, stock no negativo y categoría obligatoria.
-- Impedir borrar una categoría que tenga productos relacionados.
-- Navegar mediante formularios y tablas web con diseño responsivo.
-- Guardar los cambios de forma persistente en **MySQL**, sin datos ficticios en la interfaz.
+## Ejecutar
 
-## Requisitos de instalación
+1. Instalar JDK 17 y Maven; comprobar `java -version` y `mvn -version`.
+2. Iniciar MySQL de XAMPP. Apache permite usar `http://localhost/phpmyadmin/`; no iniciar Tomcat desde XAMPP.
+3. Ejecutar todo [database/schema.sql](database/schema.sql) antes del primer arranque. Reutiliza las tablas existentes y no borra sus datos.
+4. Revisar [application.properties](src/main/resources/application.properties): localhost, puerto 3306, base ockly_db, root y contraseña vacía por defecto. Usar DB_PASSWORD si la cuenta tiene clave; DB_USERNAME y DB_URL para otra conexión.
+5. Abrir una terminal en la carpeta que contiene pom.xml y ejecutar `mvn spring-boot:run`.
+6. Abrir `http://localhost:8080/`. Categorías: `/categorias`. Productos: `/productos`.
 
-| Programa | Versión o uso |
-|---|---|
-| Java JDK | 17 o 21 |
-| Apache Maven | 3.6.3 o posterior |
-| Spring Boot | 3.5.16 (definida en `pom.xml`) |
-| MySQL | MySQL 8, o MariaDB de XAMPP reciente |
-| XAMPP | Si se utiliza MySQL local y phpMyAdmin |
-| IDE | Visual Studio Code con Extension Pack for Java, IntelliJ IDEA o Eclipse |
-| Navegador | Chrome, Firefox, Edge u otro moderno |
+Para detener: Ctrl+C. Si 8080 está ocupado, cerrar la otra instancia o definir `$env:PORT="8081"` en PowerShell y abrir ese puerto.
 
-## 1. Preparar base de datos (obligatorio)
+## Arquitectura y manual
 
-1. En XAMPP, inicia **MySQL** (Apache opcional si quieres abrir phpMyAdmin).
-2. Abre `http://localhost/phpmyadmin` y entra a la pestaña **SQL**.
-3. Ejecuta **todo el contenido de** [`database/schema.sql`](database/schema.sql). Esto crea `ockly_db` y las tablas `categorias` y `productos` con clave foránea.
-4. El script no inserta registros: se crean mediante los formularios de la aplicación.
-5. En una instalación MySQL independiente, también puedes ejecutar `mysql -u root -p < database/schema.sql` desde la terminal.
+- [Comparación, estructura, diagrama y siete reflexiones](docs/migracion-hexagonal.md).
+- [Manual de instalación, conexión, rutas y uso](docs/manual-sistema.md).
+- [Diagrama de dependencias](docs/arquitectura-hexagonal.png).
 
-**Parámetros por defecto** de [`application.properties`](src/main/resources/application.properties):
+Los controladores solo reciben puertos de entrada. Los casos de uso reciben puertos de salida y modelos del dominio. Los adaptadores JPA implementan esos contratos y convierten entidades mediante un mapper. CatalogoConfiguration conecta los componentes y aplica las transacciones sin importar Spring en domain ni application.
 
-| Propiedad | Valor inicial |
-|---|---|
-| Motor | MySQL |
-| Base de datos | `ockly_db` |
-| Puerto de MySQL | `3306` |
-| Usuario | `root` |
-| Contraseña | Vacía por defecto; usa `DB_PASSWORD` si tu MySQL exige una |
-| Puerto web | `8080` |
+## Pruebas
 
-Si MySQL tiene otra contraseña, define variables de entorno antes de arrancar. No escribas claves reales en GitHub:
+Ejecutar `mvn clean test`. H2 se usa solo en las pruebas automáticas; la ejecución normal usa MySQL/MariaDB.
 
-**PowerShell (Windows):**
-```powershell
-$env:DB_USERNAME="root"
-$env:DB_PASSWORD="tu_clave_local"
-mvn spring-boot:run
-```
+Verificación local del 18 de noviembre de 2026:
 
-**Bash (Linux/macOS):**
-```bash
-export DB_USERNAME=root
-export DB_PASSWORD='tu_clave_local'
-mvn spring-boot:run
-```
+- 24 pruebas automáticas aprobadas: 17 del negocio sin Spring ni base, 5 de integración y 2 de dependencias de arquitectura.
+- 21 comprobaciones de CRUD, rutas y validaciones en MariaDB, más la comprobación del reinicio.
+- Datos anteriores conservados y registros temporales de prueba eliminados.
 
-Para un puerto/servidor distinto, usa `DB_URL`, por ejemplo:
-`jdbc:mysql://localhost:3307/ockly_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Bogota`
+Los registros completos y capturas nuevas están en la carpeta de evidencias. La configuración de GitHub Actions ejecuta las pruebas automáticamente.
 
-## 2. Ejecutar
+## Versión anterior
 
-1. Descarga o clona el código y abre la carpeta que contiene `pom.xml`.
-2. Abre una terminal y comprueba `java -version` y `mvn -version`.
-3. Verifica que MySQL esté ejecutándose y que hayas creado las tablas con `schema.sql`.
-4. Ejecuta:
+La versión MVC se conserva en [codex/ockly-mvc](https://github.com/drakcore12/ockly/tree/codex/ockly-mvc) y su entrega está en los archivos históricos de `entrega/`. La entrega actual es `entrega/hexagonal/`.
 
-```bash
-mvn clean spring-boot:run
-```
+## Alcance
 
-5. Abre **http://localhost:8080/**.
-6. Primero crea una categoría; después crea un producto que pertenezca a ella.
-
-**Alternativa JAR:**
-```bash
-mvn clean package
-java -jar target/ockly-1.0.0.jar
-```
-
-La app **requiere** que MySQL esté disponible. Si falla con `Access denied`, revisa usuario/clave. Si falla con `Unknown database`, ejecuta `database/schema.sql`. Si falla la validación del esquema de Hibernate, asegúrate de haber ejecutado **todo** el script SQL.
-
-## 3. Direcciones URL
-
-| Funcionalidad | URL |
-|---|---|
-| Inicio / panel | http://localhost:8080/ |
-| Listar categorías | http://localhost:8080/categorias |
-| Registrar categoría | http://localhost:8080/categorias/nuevo |
-| Consultar categoría | http://localhost:8080/categorias/1 |
-| Editar categoría | http://localhost:8080/categorias/1/editar |
-| Listar productos | http://localhost:8080/productos |
-| Registrar producto | http://localhost:8080/productos/nuevo |
-| Consultar producto | http://localhost:8080/productos/1 |
-| Editar producto | http://localhost:8080/productos/1/editar |
-
-Los identificadores numéricos de ejemplo deben sustituirse por los que realmente existan en la base de datos. El borrado se ejecuta mediante `POST` desde los formularios.
-
-## 4. Guía de uso
-
-### Categorías
-1. Ve a **Categorías → Nueva categoría**.
-2. Digita un nombre y opcionalmente una descripción; pulsa **Guardar categoría**.
-3. Pulsa **Consultar** para ver los productos asociados.
-4. Pulsa **Editar** para actualizar y **Eliminar** para borrar (solo si no tiene productos).
-
-### Productos
-1. Registra primero al menos una categoría.
-2. Ve a **Productos → Nuevo producto** y completa nombre, precio, stock y categoría.
-3. Pulsa **Guardar producto** y verifica que aparece en la tabla.
-4. Usa **Consultar**, **Editar** y **Eliminar** para gestionar cada registro.
-5. Visita la categoría asociada y comprueba la relación entre ambas tablas.
-
-## 5. Arquitectura y estructura
-
-Consulta [`docs/arquitectura.md`](docs/arquitectura.md) para el diagrama MVC y el modelo entidad-relación. Resumen:
-
-```text
-src/main/java/co/edu/pascualbravo/ockly/
-├── controller/    # Controlador: peticiones web y navegación
-├── model/         # Modelo: entidades Categoria y Producto
-├── dto/           # Validación de los campos del formulario
-├── service/       # Reglas de negocio y operaciones CRUD
-├── repository/    # Persistencia JPA hacia MySQL
-└── OcklyApplication.java
-src/main/resources/
-├── templates/     # Vista: HTML Thymeleaf
-├── static/css/    # Estilos visuales
-└── application.properties
-database/schema.sql # DDL MySQL con FK
-src/test/          # Pruebas de integración (H2 solo en pruebas)
-```
-
-## 6. Pruebas automatizadas
-
-```bash
-mvn test
-```
-
-Se ejecuta `OcklyMvcIntegrationTest`, que verifica vía MockMvc el CRUD de las dos entidades, la relación uno-a-muchos, las restricciones de eliminación y validaciones. **H2 solo se utiliza en pruebas**; la aplicación normal usa MySQL.
-
-## 7. Evidencias para la entrega
-
-El docente exige capturas **reales** del funcionamiento. Con el sistema ejecutándose y datos de prueba creados, incluye en el documento técnico capturas de:
-
-1. Página principal con cantidades de categorías y productos.
-2. Listado de categorías y su formulario de creación/edición.
-3. Listado de productos y su formulario con selección de categoría.
-4. Detalle de una categoría mostrando sus productos asociados.
-5. Consulta SQL de las tablas en phpMyAdmin para evidenciar persistencia.
-6. Resultado de `mvn test` o de la compilación.
-
-Las pruebas locales se completaron el 11 de noviembre de 2026: **3 pruebas automáticas aprobadas, sin fallos ni errores**. También se verificaron el CRUD con MariaDB de XAMPP y la persistencia tras reiniciar Spring Boot. Las 12 capturas reales están en [`entrega/evidencias/`](entrega/evidencias/).
-
-## Limitaciones académicas
-
-Este módulo inicial cubre únicamente catálogo de productos y categorías. No implementa usuarios, ventas ni pagos. No hay autenticación porque no se solicita en esta actividad; no exponer públicamente la aplicación sin añadir controles de seguridad.
-
-## Archivos de entrega
-
-En [`entrega/`](entrega/) está la entrega final:
-
-- [Informe final en PDF](entrega/Ockly_MVC_Documento_Tecnico.pdf).
-- [Informe editable en Word](entrega/Ockly_MVC_Documento_Tecnico.docx).
-- [Código fuente en ZIP](entrega/Ockly_MVC_SpringBoot_Fuente.zip).
-- [Evidencias y resultados en ZIP](entrega/Ockly-evidencias-y-pruebas.zip).
-- [Capturas individuales](entrega/evidencias/).
-- [Resultados de las pruebas y guía local](entrega/resultados/).
-
-Para utilizar el proyecto, sigue el manual del informe o las instrucciones de este README.
+Catálogo de productos y categorías. No incluye ventas, pagos ni cuentas de usuarios. La migración conserva ese alcance y el esquema de base de datos.

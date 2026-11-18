@@ -1,0 +1,20 @@
+ENTREGA FINAL OCKLY HEXAGONAL
+18 de noviembre de 2026
+
+Informe_Ockly_Hexagonal.pdf: documento técnico y manual para entregar.
+Informe_Ockly_Hexagonal.docx: versión editable.
+Ockly_Hexagonal_Fuente.zip: código completo, SQL, pruebas y documentación.
+evidencias/: capturas nuevas, logs y comprobaciones con la base real.
+manual-sistema.md: instrucciones de ejecución y rutas.
+migracion-hexagonal.md: comparación, componentes y siete reflexiones.
+arquitectura-hexagonal.png: diagrama de la solución implementada.
+
+Descomprimir el ZIP del código y abrir la carpeta con pom.xml.
+Iniciar MySQL de XAMPP y ejecutar database/schema.sql antes del primer arranque.
+Ejecutar mvn spring-boot:run y abrir http://localhost:8080/.
+Pruebas automáticas: mvn clean test. Java 17. H2 solo para pruebas.
+Se reutiliza ockly_db; no es necesario borrar las tablas existentes.
+
+Resultado local: 24 pruebas automáticas aprobadas, 21 comprobaciones con MariaDB
+y comprobación adicional del reinicio. Los datos anteriores se conservaron.
+La versión MVC anterior está en la rama codex/ockly-mvc del repositorio.

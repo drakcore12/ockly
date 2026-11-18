@@ -1,0 +1,91 @@
+{
+  "fecha": "2026-11-18",
+  "aplicacion": "Ockly hexagonal",
+  "base": "ockly_db",
+  "pruebas": [
+    {
+      "prueba": "Crear categoría en MariaDB",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Editar categoría",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Crear producto relacionado en MariaDB",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Consultar detalle de producto",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Consultar relación en la interfaz",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Editar precio y existencias",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Rechazar eliminación de categoría con productos",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Rechazar nombre vacío",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Rechazar precio y stock negativos",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "No persistir producto inválido",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Registro inexistente devuelve 404",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Ruta funcional /",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Ruta funcional /categorias",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Ruta funcional /productos",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Ruta funcional /categorias/nuevo",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Ruta funcional /productos/nuevo",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Ruta funcional /categorias/3/editar",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Ruta funcional /productos/3/editar",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Eliminar producto temporal",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Eliminar categoría temporal",
+      "resultado": "APROBADA"
+    },
+    {
+      "prueba": "Conservar exactamente los registros anteriores a la migración",
+      "resultado": "APROBADA"
+    }
+  ]
+}
